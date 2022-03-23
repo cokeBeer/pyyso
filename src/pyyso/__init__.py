@@ -13,5 +13,10 @@ from pyyso.yso import (
     cc7,
     jdk7u21,
     jdk8u20,
+    cb1v192,
+    cb1v183,
     evil
+)
+from pyyso.aes import (
+    shiroEncode
 )

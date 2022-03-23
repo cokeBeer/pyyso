@@ -14,9 +14,12 @@ Here are just a few of the things that pyyso does well:
 
 pyyso has implemented
 - URLDNS Gadget
-- CommonCollections1-7 Gadgets
+- CommonsCollections1-7 Gadgets
 - JDK7u21 Gadget
 - JDK8u21 Gadget
+- CommonsBeanutils 1.8.3
+- CommonsBeanutils 1.9.2
+- shiro-550 rememberMe deserialized
 - java class embed with command
 - ldap server hosting java serialized pocs
 - ldap server hosting java remote reference factory
