@@ -23,12 +23,6 @@ class MysqlServer():
             len1 = conn.recv(3)
             len1 = int.from_bytes(len1, byteorder="little")
             conn.recv(len1 + 1)
-            conn.send(b"\x2c\x00\x00\x02\xfe\x6d\x79\x73\x71\x6c\x5f\x6e\x61\x74\x69\x76" \
-                      + b"\x65\x5f\x70\x61\x73\x73\x77\x6f\x72\x64\x00\x49\x6d\x28\x32\x4e" \
-                      + b"\x76\x36\x02\x32\x37\x43\x17\x4d\x01\x63\x39\x1b\x23\x0a\x44\x00")
-            len2 = conn.recv(3)
-            len2 = int.from_bytes(len2, byteorder="little")
-            conn.recv(len2 + 1)
             conn.send(b"\x07\x00\x00\x04\x00\x00\x00\x02\x00\x00\x00")
             len3 = conn.recv(3)
             len3 = int.from_bytes(len3, byteorder="little")
@@ -94,31 +88,28 @@ class MysqlServer():
                       + b"\x54\x49\x4f\x4e\x03\x43\x53\x54\x06\x53\x59\x53\x54\x45\x4d\x0f" \
                       + b"\x52\x45\x50\x45\x41\x54\x41\x42\x4c\x45\x2d\x52\x45\x41\x44\x05" \
                       + b"\x32\x38\x38\x30\x30\x07\x00\x00\x14\xfe\x00\x00\x02\x00\x00\x00")
-            len4 = conn.recv(3)
-            len4 = int.from_bytes(len4, byteorder="little")
-            conn.recv(len4 + 1)
-            conn.send(b"\x07\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00")
-            len5 = conn.recv(3)
-            len5 = int.from_bytes(len5, byteorder="little")
-            conn.recv(len5 + 1)
-            conn.send(b"\x07\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00")
-            len6 = conn.recv(3)
-            len6 = int.from_bytes(len6, byteorder="little")
-            conn.recv(len6 + 1)
-            p1 = b"\x01\x00\x00\x01\x02"
-            p2 = b"\x30\x00\x00\x02\x03\x64\x65\x66\x0a\x6a\x64\x62\x63\x61\x74\x74" \
-                 + b"\x61\x63\x6b\x06\x61\x74\x74\x61\x63\x6b\x06\x61\x74\x74\x61\x63" \
-                 + b"\x6b\x02\x73\x31\x02\x73\x31\x0c\x3f\x00\xff\xff\x00\x00\xfc\x90" \
-                 + b"\x00\x00\x00\x00"
-            p3 = b"\x30\x00\x00\x03\x03\x64\x65\x66\x0a\x6a\x64\x62\x63\x61\x74\x74" \
-                 + b"\x61\x63\x6b\x06\x61\x74\x74\x61\x63\x6b\x06\x61\x74\x74\x61\x63" \
-                 + b"\x6b\x02\x73\x32\x02\x73\x32\x0c\xff\x00\xfc\x03\x00\x00\xfd\x00" \
-                 + b"\x00\x00\x00\x00"
-            len7 = len(self.serobj + b"\x04\x65\x76\x69\x6c")
-            p4 = (len7 + 3).to_bytes(3, byteorder="little") + b"\x04\xfc" + (len7).to_bytes(2,
-                                                                                            byteorder="little") + self.serobj + b"\x04\x65\x76\x69\x6c"
-            p5 = b"\x07\x00\x00\x05\xfe\x00\x00\x02\x00\x00\x00"
-            conn.send(p1 + p2 + p3 + p4 + p5)
+            while True:
+                len4 = conn.recv(3)
+                len4 = int.from_bytes(len4, byteorder="little")
+                req = conn.recv(len4 + 1)
+                print(str(req[2:]))
+                if req[2:] == b"SHOW SESSION STATUS":
+                    p1 = b"\x01\x00\x00\x01\x02"
+                    p2 = b"\x30\x00\x00\x02\x03\x64\x65\x66\x0a\x6a\x64\x62\x63\x61\x74\x74" \
+                         + b"\x61\x63\x6b\x06\x61\x74\x74\x61\x63\x6b\x06\x61\x74\x74\x61\x63" \
+                         + b"\x6b\x02\x73\x31\x02\x73\x31\x0c\x3f\x00\xff\xff\x00\x00\xfc\x90" \
+                         + b"\x00\x00\x00\x00"
+                    p3 = b"\x30\x00\x00\x03\x03\x64\x65\x66\x0a\x6a\x64\x62\x63\x61\x74\x74" \
+                         + b"\x61\x63\x6b\x06\x61\x74\x74\x61\x63\x6b\x06\x61\x74\x74\x61\x63" \
+                         + b"\x6b\x02\x73\x32\x02\x73\x32\x0c\xff\x00\xfc\x03\x00\x00\xfd\x00" \
+                         + b"\x00\x00\x00\x00"
+                    len7 = len(self.serobj + b"\x04\x65\x76\x69\x6c")
+                    p4 = (len7 + 3).to_bytes(3, byteorder="little") + b"\x04\xfc" + (len7).to_bytes(2,
+                                                                                                    byteorder="little") + self.serobj + b"\x04\x65\x76\x69\x6c"
+                    p5 = b"\x07\x00\x00\x05\xfe\x00\x00\x02\x00\x00\x00"
+                    conn.send(p1 + p2 + p3 + p4 + p5)
+                else:
+                    conn.send(b"\x07\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00")
 
     def run(self):
         """
@@ -126,5 +117,3 @@ class MysqlServer():
         """
         self.thread = Thread(target=self.__serve)
         self.thread.start()
-
-
